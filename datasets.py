@@ -25,7 +25,7 @@ def sha512_hash(filename):
 
 
 def download_video(ids):
-    print('download and verify original video files of videos:', ' '.join(ids))
+    print('download and verify original video files of:', ' '.join(ids))
     basedir = os.path.normpath(os.path.join(os.path.dirname(__file__), 'scenes100'))
     with open(os.path.join(basedir, 'videos.json'), 'r') as fp:
         videos = json.load(fp)
@@ -38,11 +38,50 @@ def download_video(ids):
         filename = os.path.join(basedir, videos[video_id]['filename'])
         print('download', videos[video_id]['gid'], '=>', filename)
         gdown.download(id=videos[video_id]['gid'], output=filename, use_cookies=False)
-        print('verify SHA512 of', filename, end=' ... ')
-        assert os.access(filename, os.R_OK), 'video file not readable: ' + filename
+        print('verify SHA512 of', filename, end=' ... ', flush=True)
         checksum = sha512_hash(filename)
         assert checksum.lower() == videos[video_id]['file']['sha512'].lower(), 'SHA512 not matching, file corrupted'
         print('passed')
+
+
+def download_image(ids):
+    print('download and verify pre-extracted training images LMDB of:', ' '.join(ids))
+    basedir = os.path.normpath(os.path.join(os.path.dirname(__file__), 'scenes100'))
+    with open(os.path.join(basedir, 'images.json'), 'r') as fp:
+        images = json.load(fp)
+    images = {im['id']: im for im in images}
+    basedir = os.path.join(basedir, 'images')
+    if not os.access(basedir, os.W_OK):
+        os.mkdir(basedir)
+    for video_id in ids:
+        assert len(images[video_id]['gid']) == 33, images[video_id]
+        foldername = os.path.join(basedir, video_id)
+        if not os.access(foldername, os.W_OK):
+            os.mkdir(foldername)
+        print('download', images[video_id]['gid'], '=>', foldername)
+        gdown.download_folder(id=images[video_id]['gid'], output=foldername, use_cookies=False)
+        with open(os.path.join(foldername, 'frames.json'), 'r') as fp:
+            frames_meta = json.load(fp)
+        assert frames_meta['meta']['id'] == video_id, 'wrong video ID: ' + frames_meta['meta']['id']
+        for lmdb_filename in ['data.mdb', 'lock.mdb']:
+            print('verify SHA512 of', lmdb_filename, end=' ... ', flush=True)
+            checksum = sha512_hash(os.path.join(foldername, lmdb_filename))
+            assert checksum.lower() == frames_meta['hash'][lmdb_filename]['sha512'].lower(), 'SHA512 not matching, file corrupted'
+            print('passed')
+
+
+def extract_image(ids):
+    from scenes100.training_frames import TrainingFrames
+
+    print('extracted training image files from LMDB of:', ' '.join(ids))
+    basedir = os.path.normpath(os.path.join(os.path.dirname(__file__), 'scenes100', 'images'))
+    for video_id in ids:
+        print('extract from:', os.path.join(basedir, video_id))
+        for filename in ['data.mdb', 'lock.mdb', 'frames.json']:
+            assert os.access(os.path.join(basedir, video_id, filename), os.R_OK), 'file not readable: ' + filename
+        dst = TrainingFrames(video_id)
+        print(dst)
+        dst._extract()
 
 
 if __name__ == '__main__':
@@ -65,19 +104,19 @@ if __name__ == '__main__':
         elif args.target == 'image':
             download_image(args.ids)
         elif args.target == 'annotation':
-            download_annotation(args.ids)
+            download_annotation()
         elif args.target == 'pseudolabel':
-            download_pseudo_label(args.ids)
+            download_pseudo_label()
         elif args.target == 'mscoco':
-            download_mscoco(args.ids)
+            download_mscoco()
     elif args.opt == 'extract':
         if args.target == 'video':
             print('cannot <extract> videos')
         elif args.target == 'image':
             extract_image(args.ids)
         elif args.target == 'annotation':
-            extract_annotation(args.ids)
+            extract_annotation()
         elif args.target == 'pseudolabel':
-            extract_pseudo_label(args.ids)
+            extract_pseudo_label()
         elif args.target == 'mscoco':
-            extract_mscoco(args.ids)
+            extract_mscoco()
