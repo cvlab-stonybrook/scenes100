@@ -122,8 +122,6 @@ def download_mscoco():
 
 def extract_mscoco():
     basedir = os.path.normpath(os.path.join(os.path.dirname(__file__), 'mscoco'))
-    with open(os.path.join(basedir, 'mscoco.json'), 'r') as fp:
-        files = json.load(fp)
     for prefix in ['images', 'inpaint_mask']:
         if not os.access(os.path.join(basedir, prefix), os.W_OK):
             os.mkdir(os.path.join(basedir, prefix))
@@ -138,11 +136,30 @@ def extract_mscoco():
 
 
 def download_annotation():
-    pass
+    basedir = os.path.normpath(os.path.join(os.path.dirname(__file__), 'scenes100'))
+    with open(os.path.join(basedir, 'annotations.json'), 'r') as fp:
+        files = json.load(fp)
+    for f in files:
+        url = baseurl + 'annotation/' + f['filename']
+        filename = os.path.join(basedir, f['filename'])
+        print('download', url, '=>', filename)
+        wget_download(url, filename)
+        print('verify SHA512 of', filename, end=' ... ', flush=True)
+        checksum = sha512_hash(filename)
+        assert checksum.lower() == f['sha512'].lower(), 'SHA512 not matching, file corrupted'
+        print('passed')
 
 
 def extract_annotation():
-    pass
+    basedir = os.path.normpath(os.path.join(os.path.dirname(__file__), 'scenes100'))
+    for zipfilename, foldername in [('manual_valid.zip', 'annotation'), ('background_train.zip', 'train_background'), ('background_valid.zip', 'valid_background'), ('pseudo_label_r101_track.zip', 'train_pseudo_label'), ('pseudo_label_r50_track.zip', 'train_pseudo_label'), ('pseudo_label_r101.zip', 'train_pseudo_label'), ('pseudo_label_r50.zip', 'train_pseudo_label')]:
+        foldername = os.path.join(basedir, foldername)
+        zipfilename = os.path.join(basedir, zipfilename)
+        print('extract', zipfilename, '=>', foldername)
+        if not os.access(foldername, os.W_OK):
+            os.mkdir(foldername)
+        with ZipFile(zipfilename, 'r') as zfp:
+            zfp.extractall(path=foldername)
 
 
 if __name__ == '__main__':

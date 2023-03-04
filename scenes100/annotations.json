@@ -1,0 +1,30 @@
+[
+    {
+        "filename": "manual_valid.zip",
+        "sha512": "da3705040f4b82a412896788ea66d73435187fe44ecb6f5b51817bcc3526d7755233c35a2f659eb8b4d8c3aff5c46d701200a2ebc42b67423eb6e159a7ef1b85"
+    },
+    {
+        "filename": "background_train.zip",
+        "sha512": "ceed6d73f29a55719adfb7a36333ad7e450efa301733503194d2b01635d97c0ee82017a5cdd56a10f3301c6a94b019f89651ac31c7351ffe798040a866e2fe1a"
+    },
+    {
+        "filename": "background_valid.zip",
+        "sha512": "d4bd8984f088bf1aca7be8be33b7a275767b90321f690a4e18877628ebc4150bd722e29b10bbde7cdc01ed72f4786077ad2d1fd8f36ea07d65f192e069e1a432"
+    },
+    {
+        "filename": "pseudo_label_r101_track.zip",
+        "sha512": "ccece64ac3b6e6cb251b8f5e7e553f647ea7e29c5fd16d7b52d8e0716b6d88f000d47ab2385cf006c1093707c16b7a68640999dde3ea8b67c54980089cc62dae"
+    },
+    {
+        "filename": "pseudo_label_r50_track.zip",
+        "sha512": "9e4108a296d37a6f11b039bc233bbcc3e2149752fc31749516a79d1039ead7a4cbbda5daa0100a959c1248dd56bb620e9c30394059607d44f9222b175880127d"
+    },
+    {
+        "filename": "pseudo_label_r101.zip",
+        "sha512": "7bfb62a8284f5149ddd9933b581aed3d44b11caf3c0a084e995b723d5877ddef3f59cc1de4f464537e8f1c92b64462d2afe56d49c48747d32b3a1a0d839cdff7"
+    },
+    {
+        "filename": "pseudo_label_r50.zip",
+        "sha512": "4a17165adc9ec003c6a8d6821f7b7c312a68bf5a83c58d02b0b11f54689181ffb379d246f3f305a5c816376a65c6a60515a9bf5456af2744eb1a69792647cd23"
+    }
+]
