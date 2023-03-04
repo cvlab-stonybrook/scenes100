@@ -1,32 +1,68 @@
-[
-    {
-      "filename": "instances_train2017.json",
-      "gid": "1AE5aqRpcC2_g2KlaytfBg2ELeLBz1GeS",
-      "sha512": "4f9855360351c0a4e5ff2e1480c95095f68dad9c9dded3bddc2950f77730eb346e517201576087a4c02afe3dde184199343b39837678ff97293c3ff0db567f2d"
-    },
-    {
-      "filename": "instances_val2017.json",
-      "gid": "1zRYienSOmGTLk522kfcvkvkB-PkVcy6y",
-      "sha512": "07035e1e7b34354cff9844a0d380b25501781230ce55b654f5a671fa35acd60c86c359741f4ace83e44b051a2d58aefe06b1f609a355f9194e27af829a100493"
-    },
-    {
-      "filename": "images_val2017.zip",
-      "gid": "1WqefTba5ZyHhma4GbuzPSgTSJ2BJQsLc",
-      "sha512": "d890be89cbe5b3f6dd52a527189ee84d6468f2b4e81cb2adf3a100728e7e145206b054106d44bc3f4cd07cb381fe8f564a961c6c9b9f3f7759b6cf490000c5a7"
-    },
-    {
-      "filename": "inpaint_mask_val2017.zip",
-      "gid": "1eBk8DnqeWqPxDbV1emej6GIi7KxkJ1xZ",
-      "sha512": "bf214193234b08209dcf937a6e0145402b3d7385b65a2f5c5733887872d554aefc5b71610477d874c194c0a993e8933f9d09b645bfc17a1cb6a048e28005797a"
-    },
-    {
-      "filename": "images_train2017.zip",
-      "gid": "1fXnP0wsDfXoq-F5muM84iR9gjD5r2JSm",
-      "sha512": "13201f5020c3476752ac2c4453d6e0ed8a7ebb1a32c81a5f78cd2818c89fb1b0e834cd2274682ea83c6d948cf113213837a9a5be846ae556b9836e6cce014b80"
-    },
-    {
-      "filename": "inpaint_mask_train2017.zip",
-      "gid": "1E5wpYhWbFEEu1V8GqghBSUodu8SiQdfN",
-      "sha512": "2c096fdf5da22f110185c64120891e5938c9c638c87b107a661b01bbc8a159a82b3fe5f1f53d676377670036994da0869bbae47ceb5c04716c845f83b1dc9579"
-    }
-]
+{
+    "checkpoint": [
+        {
+            "filename": "mscoco2017_remap_r101-fpn-3x.pth",
+            "sha512": "cc23ce8015f4931a6a97b42dd7327dc572c0ff0ccc765d9513b1cbed2a6a5442c2506c42e6f7b36e4a146435c76f842625aaaea1d525940ec963892e1f26ff22"
+        },
+        {
+            "filename": "mscoco2017_remap_r50-fpn-3x.pth",
+            "sha512": "8298e547196badc99088ddf1b4bbad7c9a656ab46062bcea70332e14a9694d85eb8a96f3d880d48be1ff08f13b1251cef5f2c46ed6984155d1d3b663b0fa7feb"
+        },
+        {
+            "filename": "mscoco2017_remap_wdiff_earlyfusion_r101-fpn-3x.pth",
+            "sha512": "52a3c20328e25ed62e61eaa487b4ce94f8269025c503ccbc6b14536566ef2ffb1d9456365eaee75eb04c0be86673a6706cec51534a1d3aaf25171a07c235d011"
+        },
+        {
+            "filename": "mscoco2017_remap_wdiff_earlyfusion_r50-fpn-3x.pth",
+            "sha512": "52a3c20328e25ed62e61eaa487b4ce94f8269025c503ccbc6b14536566ef2ffb1d9456365eaee75eb04c0be86673a6706cec51534a1d3aaf25171a07c235d011"
+        },
+        {
+            "filename": "mscoco2017_remap_wdiff_latefusion_r101-fpn-3x.pth",
+            "sha512": "1c309cf9622c718d9226ed7eb543676582f47f6d6c7f7673800d0199ab56c8366e5c72068bc28979ff92d59962dcaa605b53ac3084f56cddacab2fb486b4fd4c"
+        },
+        {
+            "filename": "mscoco2017_remap_wdiff_latefusion_r50-fpn-3x.pth",
+            "sha512": "942a2d4ee2006fc81b38471fe1867e2f8bee4f05c84a7b1eb2ab0ce652f770ffb2eb2f10c554d442423f7839607ab72d2bee0e08a46df63fb932c4dbc6207b10"
+        },
+        {
+            "filename": "mscoco2017_remap_wdiff_midfusion_r101-fpn-3x.pth",
+            "sha512": "7a710f803b78e1f21926f553dcdb71b4c7114cd688de8c0ee49baf580aaee80e5810195c89c492bdc522f94c6c235c69972e54e65a83d80829f2ce76a925e964"
+        },
+        {
+            "filename": "mscoco2017_remap_wdiff_midfusion_r50-fpn-3x.pth",
+            "sha512": "9ce3f1719707295debb7e34179987aa71262d5d91b3c5b056f7e851354211135ad068e3257be91c99711864873c5377adc0e1cffd8ba6e9ad34ecb14e8dc7408"
+        }
+    ],
+    "dataset": [
+        {
+        "filename": "instances_train2017.json",
+        "gid": "1AE5aqRpcC2_g2KlaytfBg2ELeLBz1GeS",
+        "sha512": "4f9855360351c0a4e5ff2e1480c95095f68dad9c9dded3bddc2950f77730eb346e517201576087a4c02afe3dde184199343b39837678ff97293c3ff0db567f2d"
+        },
+        {
+        "filename": "instances_val2017.json",
+        "gid": "1zRYienSOmGTLk522kfcvkvkB-PkVcy6y",
+        "sha512": "07035e1e7b34354cff9844a0d380b25501781230ce55b654f5a671fa35acd60c86c359741f4ace83e44b051a2d58aefe06b1f609a355f9194e27af829a100493"
+        },
+        {
+        "filename": "images_val2017.zip",
+        "gid": "1WqefTba5ZyHhma4GbuzPSgTSJ2BJQsLc",
+        "sha512": "5617fd83b0639bee832865f54a2b54a282599ba26a61df82d6a097d1dfb6aa8b8a48f71ff3f640c368d8def878d133435f85c9d0cca1b064a77550f0cea88e2c"
+        },
+        {
+        "filename": "inpaint_mask_val2017.zip",
+        "gid": "1eBk8DnqeWqPxDbV1emej6GIi7KxkJ1xZ",
+        "sha512": "31620855e9195897ca7f09d8abf3a64b62c05889b3d1e776146761f349bf779e4540f51dfa1963526a0158eb170cd7ca69364c8a1b83c08d227c771e25b03673"
+        },
+        {
+        "filename": "images_train2017.zip",
+        "gid": "1fXnP0wsDfXoq-F5muM84iR9gjD5r2JSm",
+        "sha512": "07b730ee2b71374ed1290af20074c14a5b4281f042a2634991ccdc360198936bd8dc15ee422d8aea24bd889360da41685228b55e3a74602653eed6543a57eeea"
+        },
+        {
+        "filename": "inpaint_mask_train2017.zip",
+        "gid": "1E5wpYhWbFEEu1V8GqghBSUodu8SiQdfN",
+        "sha512": "c0e4a8a967624263a2fa94281b51ae4ab9cb08c2875d4eba282decac8e2258a0b66e8d750d6640ebada636706d740c98e45384d522b7b792827518819a328c9f"
+        }
+    ]
+}

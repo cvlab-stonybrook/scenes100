@@ -96,4 +96,8 @@ class TrainingFramesDataset(torch.utils.data.Dataset):
 
 
 if __name__ == '__main__':
-    pass
+    loader = torch.utils.data.DataLoader(TrainingFramesDataset('003'), batch_size=3, shuffle=False, num_workers=2)
+    for i, (im, frame_id, fn, idx) in enumerate(loader):
+        print(idx, frame_id, fn, im.size(), im.dtype)
+        if i > 4:
+            break
