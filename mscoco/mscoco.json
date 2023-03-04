@@ -1,0 +1,32 @@
+[
+    {
+      "filename": "instances_train2017.json",
+      "gid": "1AE5aqRpcC2_g2KlaytfBg2ELeLBz1GeS",
+      "sha512": "4f9855360351c0a4e5ff2e1480c95095f68dad9c9dded3bddc2950f77730eb346e517201576087a4c02afe3dde184199343b39837678ff97293c3ff0db567f2d"
+    },
+    {
+      "filename": "instances_val2017.json",
+      "gid": "1zRYienSOmGTLk522kfcvkvkB-PkVcy6y",
+      "sha512": "07035e1e7b34354cff9844a0d380b25501781230ce55b654f5a671fa35acd60c86c359741f4ace83e44b051a2d58aefe06b1f609a355f9194e27af829a100493"
+    },
+    {
+      "filename": "images_val2017.zip",
+      "gid": "1WqefTba5ZyHhma4GbuzPSgTSJ2BJQsLc",
+      "sha512": "d890be89cbe5b3f6dd52a527189ee84d6468f2b4e81cb2adf3a100728e7e145206b054106d44bc3f4cd07cb381fe8f564a961c6c9b9f3f7759b6cf490000c5a7"
+    },
+    {
+      "filename": "inpaint_mask_val2017.zip",
+      "gid": "1eBk8DnqeWqPxDbV1emej6GIi7KxkJ1xZ",
+      "sha512": "bf214193234b08209dcf937a6e0145402b3d7385b65a2f5c5733887872d554aefc5b71610477d874c194c0a993e8933f9d09b645bfc17a1cb6a048e28005797a"
+    },
+    {
+      "filename": "images_train2017.zip",
+      "gid": "1fXnP0wsDfXoq-F5muM84iR9gjD5r2JSm",
+      "sha512": "13201f5020c3476752ac2c4453d6e0ed8a7ebb1a32c81a5f78cd2818c89fb1b0e834cd2274682ea83c6d948cf113213837a9a5be846ae556b9836e6cce014b80"
+    },
+    {
+      "filename": "inpaint_mask_train2017.zip",
+      "gid": "1E5wpYhWbFEEu1V8GqghBSUodu8SiQdfN",
+      "sha512": "2c096fdf5da22f110185c64120891e5938c9c638c87b107a661b01bbc8a159a82b3fe5f1f53d676377670036994da0869bbae47ceb5c04716c845f83b1dc9579"
+    }
+]

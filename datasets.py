@@ -7,6 +7,7 @@ import tqdm
 import argparse
 
 import hashlib
+from zipfile import ZipFile
 import gdown
 
 
@@ -82,6 +83,39 @@ def extract_image(ids):
         dst = TrainingFrames(video_id)
         print(dst)
         dst._extract()
+
+
+def download_mscoco():
+    basedir = os.path.normpath(os.path.join(os.path.dirname(__file__), 'mscoco'))
+    with open(os.path.join(basedir, 'mscoco.json'), 'r') as fp:
+        files = json.load(fp)
+    for f in files:
+        filename = os.path.join(basedir, f['filename'])
+        print('download', f['gid'], '=>', filename)
+        gdown.download(id=f['gid'], output=filename, use_cookies=False)
+        print('verify SHA512 of', filename, end=' ... ', flush=True)
+        checksum = sha512_hash(filename)
+        assert checksum.lower() == f['sha512'].lower(), 'SHA512 not matching, file corrupted'
+        print('passed')
+
+
+def extract_mscoco():
+    basedir = os.path.normpath(os.path.join(os.path.dirname(__file__), 'mscoco'))
+    with open(os.path.join(basedir, 'mscoco.json'), 'r') as fp:
+        files = json.load(fp)
+    # for f in files:
+    #     assert os.access(os.path.join(basedir, f['filename']), os.R_OK), 'file not readable: ' + f['filename']
+    for prefix in ['images', 'inpaint_mask']:
+        if not os.access(os.path.join(basedir, prefix), os.W_OK):
+            os.mkdir(os.path.join(basedir, prefix))
+        for postfix in ['val2017', 'train2017']:
+            zipfilename = os.path.join(basedir, prefix + '_' + postfix + '.zip')
+            foldername = os.path.join(basedir, prefix, postfix)
+            print('extract', zipfilename, '=>', foldername)
+            if not os.access(foldername, os.W_OK):
+                os.mkdir(foldername)
+            with ZipFile(zipfilename, 'r') as zfp:
+                zfp.extractall(path=foldername)
 
 
 if __name__ == '__main__':
