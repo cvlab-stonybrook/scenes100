@@ -1,6 +1,7 @@
 #!python3
 
 import os
+import sys
 import json
 import copy
 import random
@@ -14,11 +15,12 @@ import detectron2
 from detectron2.evaluation import inference_on_dataset
 from detectron2.data import MetadataCatalog, DatasetCatalog
 
+sys.path.append(os.path.join(os.path.dirname(__file__)))
 from adaptation.constants import video_id_list, thing_classes
 from adaptation.mscoco_remap_dataset import get_coco_dicts
 from adaptation.scenes100_dataset import refine_pseudo_labels, get_manual_dicts
 from adaptation.trainer import AdaptationTrainer
-from adaptation.base_model import get_cfg_base_model
+from adaptation.base_model_cfg import get_cfg_base_model
 
 
 def adapt(args):
@@ -156,7 +158,7 @@ def adapt(args):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Finetune Script')
+    parser = argparse.ArgumentParser(description='Adaptation Training Script')
     # generic arguments
     parser.add_argument('--id', type=str, choices=video_id_list, help='video ID')
     parser.add_argument('--model', type=str, choices=['r50-fpn-3x', 'r101-fpn-3x'], help='detection model')
@@ -174,11 +176,11 @@ if __name__ == '__main__':
     parser.add_argument('--mixup_p', type=float, default=0.3, help='probability of applying mixup to an image')
     parser.add_argument('--mixup_r', type=float, default=0.5, help='ratio of mixed-up bounding boxes')
     parser.add_argument('--mixup_overlap_thres', type=float, default=0.65, help='above this threshold, overwritten boxes by mixup are removed')
-    parser.add_argument('--mixup_random_position', type=bool, default=False, help='randomly position patch')
+    parser.add_argument('--mixup_random_position', type=bool, default=False, help='randomly position patch, only used by vanilla models')
 
     # object mask fusion options
     parser.add_argument('--fusion', type=str, choices=['vanilla', 'earlyfusion', 'midfusion', 'latefusion'], help='vanilla/early-/mid-/late- fusion')
-    parser.add_argument('--multitask_loss_alpha', type=float, default=0.5, help='relative weight of 2-branches losses')
+    parser.add_argument('--multitask_loss_alpha', type=float, default=0.5, help='relative weight of 2-branches losses, only used my mid- and late- fusion models')
 
     # training hyper-parameters
     parser.add_argument('--iters', type=int, help='total training iterations')
@@ -203,4 +205,22 @@ python train_adaptation.py --id 003 --model r101-fpn-3x --ckpt mscoco/models/msc
 
 vanilla w/ mixup:
 python train_adaptation.py --id 003 --model r101-fpn-3x --ckpt mscoco/models/mscoco2017_remap_r101-fpn-3x.pth --anno_models r101-fpn-3x r50-fpn-3x --fusion vanilla --mixup 1 --iters 200 --eval_interval 101 --debug 1 --image_batch_size 2 --num_workers 2
+
+early-fusion:
+python train_adaptation.py --id 003 --model r101-fpn-3x --ckpt mscoco/models/mscoco2017_remap_wdiff_earlyfusion_r101-fpn-3x.pth --anno_models r101-fpn-3x r50-fpn-3x --fusion earlyfusion --iters 200 --eval_interval 101 --debug 1 --image_batch_size 2 --num_workers 2
+
+early-fusion w/ mixup:
+python train_adaptation.py --id 003 --model r101-fpn-3x --ckpt mscoco/models/mscoco2017_remap_wdiff_earlyfusion_r101-fpn-3x.pth --anno_models r101-fpn-3x r50-fpn-3x --fusion earlyfusion --mixup 1 --iters 200 --eval_interval 101 --debug 1 --image_batch_size 2 --num_workers 2
+
+mid-fusion:
+python train_adaptation.py --id 003 --model r101-fpn-3x --ckpt mscoco/models/mscoco2017_remap_wdiff_midfusion_r101-fpn-3x.pth --anno_models r101-fpn-3x r50-fpn-3x --fusion midfusion --iters 200 --eval_interval 101 --debug 1 --image_batch_size 2 --num_workers 2
+
+mid-fusion w/ mixup:
+python train_adaptation.py --id 003 --model r101-fpn-3x --ckpt mscoco/models/mscoco2017_remap_wdiff_midfusion_r101-fpn-3x.pth --anno_models r101-fpn-3x r50-fpn-3x --fusion midfusion --mixup 1 --iters 200 --eval_interval 101 --debug 1 --image_batch_size 2 --num_workers 2
+
+late-fusion:
+python train_adaptation.py --id 003 --model r101-fpn-3x --ckpt mscoco/models/mscoco2017_remap_wdiff_latefusion_r101-fpn-3x.pth --anno_models r101-fpn-3x r50-fpn-3x --fusion latefusion --iters 200 --eval_interval 101 --debug 1 --image_batch_size 2 --num_workers 2
+
+late-fusion w/ mixup:
+python train_adaptation.py --id 003 --model r101-fpn-3x --ckpt mscoco/models/mscoco2017_remap_wdiff_latefusion_r101-fpn-3x.pth --anno_models r101-fpn-3x r50-fpn-3x --fusion latefusion --mixup 1 --iters 200 --eval_interval 101 --debug 1 --image_batch_size 2 --num_workers 2
 '''

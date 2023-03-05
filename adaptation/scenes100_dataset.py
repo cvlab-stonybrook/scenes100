@@ -67,7 +67,7 @@ def refine_pseudo_labels(args):
         background_files = sorted(glob.glob(os.path.normpath(os.path.join(os.path.dirname(__file__), '..', 'scenes100', 'train_background', args.id, 'inpaint', '*inpaint.jpg'))))
         background_frame_idx = list(map(lambda x: os.path.basename(x), background_files))
         background_frame_idx = np.array(list(map(lambda x: int(x[:x.find('.')]), background_frame_idx)))
-        for i in tqdm.tqdm(range(0, len(frames['ifilelist'])), ascii=True, desc='adding back ground images'):
+        for i in tqdm.tqdm(range(0, len(frames['ifilelist'])), ascii=True, desc='adding background images'):
             idx = os.path.basename(dicts_json[i]['file_name'])
             idx = int(idx[: idx.find('.')])
             dicts_json[i]['file_name_background'] = background_files[np.absolute(background_frame_idx - i).argmin()]
@@ -137,7 +137,7 @@ def get_manual_dicts(video_id):
     with open(os.path.join(inputdir, 'annotations.json'), 'r') as fp:
         annotations = json.load(fp)
     for i in range(0, len(annotations)):
-        annotations[i]['file_name'] = os.path.join(inputdir, 'masked', annotations[i]['file_name'])
+        annotations[i]['file_name'] = os.path.join(inputdir, 'unmasked', annotations[i]['file_name'])
         annotations[i]['image_id'] = i + 1
     print('manual annotation for %s: %d images, %d bboxes' % (video_id, len(annotations), sum(list(map(lambda x: len(x['annotations']), annotations)))))
     return annotations

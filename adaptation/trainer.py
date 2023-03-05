@@ -15,7 +15,8 @@ import logging
 import weakref
 
 sys.path.append(os.path.join(os.path.dirname(__file__)))
-from dataloader import DatasetMapperMixup
+from dataloader import DatasetMapperMixup, DatasetMapperFusionMixup
+from fusion_models import GeneralizedRCNNEarlyFusion, GeneralizedRCNNMidFusion, GeneralizedRCNNLateFusion
 
 
 def adaptation_trainer_run_step(self):
@@ -58,11 +59,11 @@ class AdaptationTrainer(DefaultTrainer):
         if cfg.FUSION == 'vanilla':
             pass
         elif cfg.FUSION == 'earlyfusion':
-            model = GeneralizedRCNNFinetuneBackground.create_from_sup(model, fusion_type, cfg.MULTITASK_LOSS_ALPHA)
+            model = GeneralizedRCNNEarlyFusion.create_from_sup(model)
         elif cfg.FUSION == 'midfusion':
-            raise NotImplementedError
+            model = GeneralizedRCNNMidFusion.create_from_sup(model, cfg.MULTITASK_LOSS_ALPHA)
         elif cfg.FUSION == 'latefusion':
-            raise NotImplementedError
+            model = GeneralizedRCNNLateFusion.create_from_sup(model, cfg.MULTITASK_LOSS_ALPHA)
         else:
             raise NotImplementedError
         optimizer = self.build_optimizer(cfg, model)
@@ -81,6 +82,11 @@ class AdaptationTrainer(DefaultTrainer):
         if cfg.FUSION == 'vanilla':
             if cfg.MIXUP:
                 self.data_loader.dataset.dataset.dataset._map_func._obj = DatasetMapperMixup.create_from_sup(self.data_loader.dataset.dataset.dataset._map_func._obj, cfg.MIXUP_P, cfg.MIXUP_R, cfg.MIXUP_OVERLAP_THRES, cfg.MIXUP_RANDOM_POSITION)
+        if 'fusion' in cfg.FUSION:
+            if cfg.MIXUP:
+                self.data_loader.dataset.dataset.dataset._map_func._obj = DatasetMapperFusionMixup.create_from_sup(self.data_loader.dataset.dataset.dataset._map_func._obj, cfg.MIXUP_P, cfg.MIXUP_R, cfg.MIXUP_OVERLAP_THRES)
+            else:
+                self.data_loader.dataset.dataset.dataset._map_func._obj = DatasetMapperFusionMixup.create_from_sup(self.data_loader.dataset.dataset.dataset._map_func._obj, None, None, None)
 
         # enable training history
         assert isinstance(self._trainer, SimpleTrainer), 'self._trainer class mismatch'
@@ -108,9 +114,7 @@ class AdaptationTrainer(DefaultTrainer):
         loader = detectron2.data.build_detection_test_loader(cfg, dataset_name)
         assert isinstance(loader.dataset._map_func._obj, detectron2.data.DatasetMapper), 'mapper class mismatch'
         if 'fusion' in cfg.FUSION:
-            loader.dataset._map_func._obj = DatasetMapperBackground.create_from_sup(loader.dataset._map_func._obj)
-        else:
-            pass
+            loader.dataset._map_func._obj = DatasetMapperFusionMixup.create_from_sup(loader.dataset._map_func._obj, None, None, None)
         return loader
 
 
