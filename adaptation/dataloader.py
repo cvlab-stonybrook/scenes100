@@ -27,7 +27,7 @@ class DatasetMapperMixup(detectron2.data.DatasetMapper):
         '''
         dataset_dict = copy.deepcopy(dataset_dict)  # it will be modified by code below
         # USER: Write your own image loading if it's not from a file
-        image = detectron2.data.detection_utils.read_image(dataset_dict['file_name'], format=self.image_format)
+        image = np.array(detectron2.data.detection_utils.read_image(dataset_dict['file_name'], format=self.image_format))
 
         # location-aware mixup
         if 'mixup_src_images' in dataset_dict and random.uniform(0.0, 1.0) < self.mixup_p:
@@ -116,7 +116,7 @@ class DatasetMapperFusionMixup(detectron2.data.DatasetMapper):
         '''
         dataset_dict = copy.deepcopy(dataset_dict)  # it will be modified by code below
         # USER: Write your own image loading if it's not from a file
-        image = detectron2.data.detection_utils.read_image(dataset_dict['file_name'], format=self.image_format)
+        image = np.array(detectron2.data.detection_utils.read_image(dataset_dict['file_name'], format=self.image_format))
 
         # location-aware mixup
         if 'mixup_src_images' in dataset_dict and random.uniform(0.0, 1.0) < self.mixup_p:

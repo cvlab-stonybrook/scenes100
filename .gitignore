@@ -138,3 +138,4 @@ dmypy.json
 *.mdb
 *.pth
 *.pdf
+train_output_*
