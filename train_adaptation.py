@@ -95,10 +95,12 @@ def adapt(args):
     trainer.train()
 
     # save model and training history
-    prefix = 'adapt%s_%s_anno_%s' % (args.id, args.model, desc_train)
     if not detectron2.utils.comm.is_main_process():
         print('in sub-process, exiting')
         return
+    prefix = 'adapt%s_%s_anno_%s' % (args.id, args.model, desc_train)
+    if args.ddp_gpus > 1:
+        prefix = prefix + '_' + str(args.ddp_gpus) + 'GPUs'
     with open(os.path.join(args.outputdir, prefix + '.json'), 'w') as fp:
         json.dump({'results': trainer.eval_results_all, 'lr_history': trainer._trainer.lr_history, 'loss_history': trainer._trainer.loss_history, 'args': vars(args)}, fp)
     m = trainer.model
@@ -190,12 +192,17 @@ if __name__ == '__main__':
     parser.add_argument('--roi_batch_size', default=128, type=int, help='ROI patch batch size')
     parser.add_argument('--lr', default=1e-4, type=float, help='base learning rate')
     parser.add_argument('--num_workers', default=0, type=int, help='number of dataloader processes')
+    parser.add_argument('--ddp_gpus', default=1, type=int, help='number of GPUs used for distributed training, use with caution!')
     args = parser.parse_args()
 
     args.anno_models = sorted(list(set(args.anno_models)))
     assert 0 <= args.multitask_loss_alpha <= 1, str(args.multitask_loss_alpha)
     print(args)
-    adapt(args)
+    if args.ddp_gpus > 1:
+        assert 0 == (args.image_batch_size % args.ddp_gpus), 'image batch size needs to be divided by number of GPUs'
+        detectron2.engine.launch(adapt, args.ddp_gpus, num_machines=1, machine_rank=0, dist_url='auto', args=(args,))
+    else:
+        adapt(args)
 
 '''
 # debugging
