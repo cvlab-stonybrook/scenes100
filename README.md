@@ -2,13 +2,14 @@
 
 This repository contains videos, extracted frames, trained models, and implementation of paper *Zekun Zhang, Minh Hoai, Object Detection with Self-Supervised Scene Adaptation, CVPR 2023* [[Paper](media/)] [[Poster](media/)] [[Supp PDF](media/)].
 
-[fusion.svg](media/fusion.svg)
+![fusion](https://user-images.githubusercontent.com/10338705/223283078-f2a1b34f-927c-4d20-b7df-bdf5728f3f02.svg)
 
-[mosaic.webm](media/mosaic.webm)
+[mosaic.webm](https://user-images.githubusercontent.com/10338705/223283108-66500928-fb67-4cd3-b777-c07b30e333c7.webm)
 
 ## Environment Setup
 
-Your system needs to have an NVIDIA GPU with at least 20GB VRAM to run the fusion model adaptation training with default settings. The GPU hardware and driver should support CUDA version 11.3 and later. This repository has been tested on Ubuntu 20.04 and Ubuntu 22.04. Older system and Python versions might not work. You system needs to have `curl` and `unzip` installed for the dataset downloading scripts to work. We recommend to start from a fresh Python environment and install the required packages to avoid incompatibility issues. For instance, you can create a new environment in Anaconda and switch to it:
+Your system needs to have an NVIDIA GPU with at le[Uploading mosaic.webm…]()
+ast 20GB VRAM to run the fusion model adaptation training with default settings. The GPU hardware and driver should support CUDA version 11.3 and later. This repository has been tested on Ubuntu 20.04 and Ubuntu 22.04. Older system and Python versions might not work. You system needs to have `curl` and `unzip` installed for the dataset downloading scripts to work. We recommend to start from a fresh Python environment and install the required packages to avoid incompatibility issues. For instance, you can create a new environment in Anaconda and switch to it:
 ```console
 conda create -n scenes100
 conda deactivate && conda activate scenes100
