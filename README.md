@@ -105,7 +105,29 @@ python evaluate_adaptation.py --opt batch --model r101-fpn-3x --compare_ckpts_di
 ```
 Comparison results will be saved to the directory `trained_models/best_midfusion_mixup`. Due to variations of system and Python packages, the resulting AP gains can differ slightly from the numbers reported in the paper, but the difference should not be more than 0.05.
 
-## 4. Citation
+## 4. Generate Pseudo Labels (Optional)
+
+Please follow these steps if you want to generate pseudo bounding boxes by yourselves instead of using the provided ones.
+
+### PyTracking
+
+Install PyTracking following the [official repository](https://github.com/visionml/pytracking). Please note that our code is tested with the commit `47d9c16`. Other version might cause issues. [CUDA Toolkit](https://developer.nvidia.com/cuda-downloads) needs to be installed for PyTracking to compile the ROIPooling modules. Versions `11.X` should all be compatible. The code has been tested with version `11.3`. Assume the toolkit root directory is `/cuda/toolkit`.
+
+### Labeling
+
+To run the pseudo labeling, use the script [pseudo_label.py](pseudo_label.py). Please check the arguments help information on how to use it. For instance, to detect the target objects in the training frames of video `003` using an R-101 base model, run:
+```console
+python pseudo_label.py --opt detect --id 003 --model r101-fpn-3x --ckpt mscoco/models/mscoco2017_remap_r101-fpn-3x.pth
+```
+The file containing the pseudo detection bounding boxes is saved to the current directory by default, as a GZIP file.
+
+Then you can run the single object tracker using the detected pseudo bounding boxes as initializations:
+```console
+python pseudo_label.py --opt track --id 003 --detect_file 003_detect_r101-fpn-3x.json.gz --pytracking_dir /your/path/pytracking --cuda_dir /cuda/toolkit
+```
+The resulting GZIP file will also be saved to the current directory by default.
+
+## 5. Citation
 
 If you found our paper or dataset useful, please cite:
 ```
