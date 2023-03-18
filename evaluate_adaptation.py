@@ -210,7 +210,7 @@ if __name__ == '__main__':
 
     # object mask fusion options
     parser.add_argument('--fusion', type=str, choices=['vanilla', 'earlyfusion', 'midfusion', 'latefusion'], help='vanilla/early-/mid-/late- fusion')
-    parser.add_argument('--eval_background', type=str, default='dynamic', choices=['dynamic', 'last'], help='use inference time dynamic background or last training time background')
+    parser.add_argument('--eval_background', type=str, default='last', choices=['dynamic', 'last'], help='use inference time dynamic background or last training time background')
     args = parser.parse_args()
 
     if args.opt == 'base':
