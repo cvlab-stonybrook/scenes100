@@ -1,6 +1,6 @@
 # Object Detection with Self-Supervised Scene Adaptation
 
-This repository contains videos, extracted frames, trained models, and implementation of paper *Zekun Zhang, Minh Hoai, Object Detection with Self-Supervised Scene Adaptation, CVPR 2023* [[Paper](media/)] [[Poster](media/)] [[Supplementary](media/)].
+This repository contains videos, extracted frames, trained models, and implementation of paper *Zekun Zhang, Minh Hoai, Object Detection with Self-Supervised Scene Adaptation, CVPR 2023* [[Paper](media/)] [[Poster](media/)] [[Video](media/)].
 
 ![banner](https://user-images.githubusercontent.com/10338705/223897408-bf61c3bf-954a-4de2-a86c-84d75b6e1b12.png)
 
@@ -111,7 +111,7 @@ Please follow these steps if you want to generate pseudo bounding boxes by yours
 
 ### PyTracking
 
-Install PyTracking following the [official repository](https://github.com/visionml/pytracking). Please note that our code is tested with the commit `47d9c16`. Other version might cause issues. [CUDA Toolkit](https://developer.nvidia.com/cuda-downloads) needs to be installed for PyTracking to compile the ROIPooling modules. Versions `11.X` should all be compatible. The code has been tested with version `11.3`. Assume the toolkit root directory is `/cuda/toolkit`.
+Install PyTracking following the [official repository](https://github.com/visionml/pytracking). Please note that our code is tested with the commit `47d9c16`. Other version might cause issues. For our code to work, you only need to install `ninja-build`, `jpeg4py`, and `visdom` among the dependencies, and download the DiMP-50 model weights. [CUDA Toolkit](https://developer.nvidia.com/cuda-downloads) needs to be installed for PyTracking to compile the ROIPooling modules. The code has been tested with version `11.3`, but newer versions should all be compatible. You might need to refer to this [post](https://discuss.pytorch.org/t/question-about-thc-thc-h/147145) and replace `THCudaCheck` with `AT_CUDA_CHECK` in the ROIPooling code, if you encounter PyTorch C++ namespaces issues.
 
 ### Labeling
 
