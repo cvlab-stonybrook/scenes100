@@ -114,9 +114,9 @@ def evaluate_single(args):
     images = get_manual_dicts(args.id)
     if 'fusion' in args.fusion:
         if args.eval_background == 'last':
-            background_files = sorted(glob.glob(os.path.normpath(os.path.join(os.path.dirname(__file__), 'scenes100', 'train_background', args.id, 'inpaint', '*inpaint.jpg'))))
+            background_file_last = sorted(glob.glob(os.path.normpath(os.path.join(os.path.dirname(__file__), 'scenes100', 'train_background', args.id, 'inpaint', '*inpaint.jpg'))))[-1]
             for im in images:
-                im['file_name_background'] = background_files[-1]
+                im['file_name_background'] = background_file_last
         elif args.eval_background == 'dynamic':
             for im in images:
                 im['file_name_background'] = os.path.normpath(os.path.join(os.path.dirname(__file__), 'scenes100', 'valid_background', args.id, 'inpaint', os.path.basename(im['file_name']) + '_inpaint.jpg'))
@@ -149,7 +149,7 @@ def evaluate_batch(args):
     from adaptation.constants import video_id_list
     print('scanning checkpoints in %s' % args.compare_ckpts_dir)
     ckpt_dict = {}
-    for ckpt in glob.glob(os.path.join(args.compare_ckpts_dir, 'adapt*.pth')):
+    for ckpt in sorted(glob.glob(os.path.join(args.compare_ckpts_dir, 'adapt*.pth'))):
         video_id = os.path.basename(ckpt)[5 : 8]
         if not video_id in ckpt_dict:
             ckpt_dict[video_id] = []
@@ -158,9 +158,10 @@ def evaluate_batch(args):
         assert video_id in video_id_list, 'unrecognizable video ID: ' + video_id
         assert len(ckpt_dict[video_id]) == 1, 'more than 1 checkpoints for video ' + video_id + ': ' + str(ckpt_dict[video_id])
     results_AP = {}
-    for video_id in ckpt_dict:
+    for i, video_id in enumerate(ckpt_dict):
         args.id, args.ckpt = video_id, ckpt_dict[video_id][0]
         results_AP[video_id] = evaluate_single(args)
+        print('%d/%d finished\n' % (i + 1, len(ckpt_dict)))
     with open(os.path.join(args.compare_ckpts_dir, 'results_compare.json'), 'w') as fp:
         json.dump(results_AP, fp)
     
