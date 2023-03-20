@@ -156,7 +156,7 @@ def adapt(args):
     plt.title('losses')
     plt.tight_layout()
     plt.savefig(os.path.join(args.outputdir, prefix + '.pdf'))
-    exit(0)
+    plt.close()
 
 
 if __name__ == '__main__':

@@ -105,7 +105,16 @@ python evaluate_adaptation.py --opt batch --model r101-fpn-3x --compare_ckpts_di
 ```
 Comparison results will be saved to the directory `trained_models/best_midfusion_mixup`. Due to variations of system and Python packages, the resulting AP gains can differ slightly from the numbers reported in the paper, but the difference should not be more than 0.05.
 
-## 4. Generate Pseudo Labels (Optional)
+## 4. (Optional) Background Extraction
+
+To generate dynamic background images by yourselves instead of using the provided ones, you need to have `opencv-python` installed to use its [image inpainting](https://docs.opencv.org/3.4/df/d3d/tutorial_py_inpainting.html) functions. Then run:
+```console
+mkdir background_001
+python extract_background.py --id 001 --outputdir background_001
+```
+The inpainted dynamic background images will be saved to `background_001/inpaint` as JPEG files.
+
+## 5. (Optional) Generate Pseudo Labels
 
 Please follow these steps if you want to generate pseudo bounding boxes by yourselves instead of using the provided ones.
 
@@ -127,7 +136,7 @@ python pseudo_label.py --opt track --id 003 --detect_file 003_detect_r101-fpn-3x
 ```
 The resulting GZIP file will also be saved to the current directory by default.
 
-## 5. Citation
+## 6. Citation
 
 If you found our paper or dataset useful, please cite:
 ```
