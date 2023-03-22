@@ -2,9 +2,9 @@
 
 This repository contains videos, extracted frames, trained models, and implementation of paper *Zekun Zhang, Minh Hoai, Object Detection with Self-Supervised Scene Adaptation, CVPR 2023* [[Paper](media/)] [[Poster](media/)] [[Video](media/)].
 
-![banner](https://user-images.githubusercontent.com/10338705/223897408-bf61c3bf-954a-4de2-a86c-84d75b6e1b12.png)
+![banner](media/banner.png)
 
-![fusion](https://user-images.githubusercontent.com/10338705/223283078-f2a1b34f-927c-4d20-b7df-bdf5728f3f02.svg)
+![fusion](media/fusion.svg)
 
 [mosaic.webm](https://user-images.githubusercontent.com/10338705/223283108-66500928-fb67-4cd3-b777-c07b30e333c7.webm)
 
