@@ -1,12 +1,12 @@
 # Object Detection with Self-Supervised Scene Adaptation
 
-This repository is the official implementation of paper
+This repository is the official implementation of paper:
 
-Zekun Zhang, Minh Hoai, *Object Detection with Self-Supervised Scene Adaptation*, CVPR 2023
+Zekun Zhang, Minh Hoai, *Object Detection with Self-Supervised Scene Adaptation*, CVPR 2023.
 
-[[PDF](media/zhang2023odsceneadaptive.pdf)] [[Poster](media/)] [[Video](media/)].
+[[PDF](media/zhang2023odsceneadaptive.pdf)] [[Poster](media/)] [[Video](media/)]
 
-Scripts for downloading videos, extracted frames, annotations, and trained models are also provided. If you found our paper or dataset useful, please cite:
+Scripts for downloading videos, frames, annotations, and models are also provided. If you found our paper or dataset useful, please cite:
 ```bibtex
 @inproceedings{zhang2023odsceneadaptive,
   title={Object Detection with Self-Supervised Scene Adaptation},
