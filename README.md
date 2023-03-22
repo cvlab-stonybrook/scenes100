@@ -1,12 +1,30 @@
 # Object Detection with Self-Supervised Scene Adaptation
 
-This repository contains videos, extracted frames, trained models, and implementation of paper *Zekun Zhang, Minh Hoai, Object Detection with Self-Supervised Scene Adaptation, CVPR 2023* [[Paper](media/zhang2023odsceneadaptive.pdf)] [[Poster](media/)] [[Video](media/)].
+This repository is the official implementation of paper
+
+Zekun Zhang, Minh Hoai, *Object Detection with Self-Supervised Scene Adaptation*, CVPR 2023
+
+[[PDF](media/zhang2023odsceneadaptive.pdf)] [[Poster](media/)] [[Video](media/)].
+
+Scripts for downloading videos, extracted frames, annotations, and trained models are also provided. If you found our paper or dataset useful, please cite:
+```bibtex
+@inproceedings{zhang2023odsceneadaptive,
+  title={Object Detection with Self-Supervised Scene Adaptation},
+  author={Zekun Zhang and Minh Hoai},
+  booktitle={IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year={2023}
+}
+```
 
 ![banner](media/banner.png)
+<p align="center">Overview of proposed self-supervised scene adaptive object detection framework.</p>
 
 ![fusion](media/fusion.svg)
+<p align="center">Network architectures of proposed fusion faster-RCNN that takes object masks as additional input modality.</p>
 
 [mosaic.webm](https://user-images.githubusercontent.com/10338705/223283108-66500928-fb67-4cd3-b777-c07b30e333c7.webm)
+
+<p align="center">Some images from proposed <b>Scenes100</b> dataset with object bounding box annotations for evaluation.</p>
 
 ## 1. Environment Setup
 
@@ -135,15 +153,3 @@ Then you can run the single object tracker using the detected pseudo bounding bo
 python pseudo_label.py --opt track --id 003 --detect_file 003_detect_r101-fpn-3x.json.gz --pytracking_dir /your/path/pytracking --cuda_dir /cuda/toolkit
 ```
 The resulting GZIP file will also be saved to the current directory by default.
-
-## 6. Citation
-
-If you found our paper or dataset useful, please cite:
-```
-@inproceedings{zhang2023odsceneadaptive,
-  title={Object Detection with Self-Supervised Scene Adaptation},
-  author={Zekun Zhang and Minh Hoai},
-  booktitle={IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
-  year={2023}
-}
-```
