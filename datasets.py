@@ -14,7 +14,7 @@ from adaptation.constants import video_id_list
 baseurl = 'https://vision.cs.stonybrook.edu/~zekun/scenes100/'
 
 
-def wget_download(url, filename):
+def curl_download(url, filename):
     curl = str(subprocess.run(['which', 'curl'], capture_output=True, text=True, env=os.environ).stdout).strip()
     cmd = [curl, '--insecure', '-C', '-', url, '--output', filename]
     subprocess.Popen(cmd, stdout=sys.stdout, stderr=sys.stderr).communicate()
@@ -44,7 +44,7 @@ def download_video(ids):
         url = baseurl + 'videos/' + videos[video_id]['filename']
         filename = os.path.join(basedir, videos[video_id]['filename'])
         print('download', url, '=>', filename)
-        wget_download(url, filename)
+        curl_download(url, filename)
         print('verify SHA512 of', filename, end=' ... ', flush=True)
         checksum = sha512_hash(filename)
         assert checksum.lower() == videos[video_id]['file']['sha512'].lower(), 'SHA512 not matching, file corrupted'
@@ -68,7 +68,7 @@ def download_image(ids):
             url = baseurl + 'train_lmdb/' + video_id + '_' + f
             filename = os.path.join(foldername, f)
             print('download', url, '=>', filename)
-            wget_download(url, filename)
+            curl_download(url, filename)
         with open(os.path.join(foldername, 'frames.json'), 'r') as fp:
             frames_meta = json.load(fp)
         assert frames_meta['meta']['id'] == video_id, 'wrong video ID: ' + frames_meta['meta']['id']
@@ -81,7 +81,7 @@ def download_image(ids):
 
 def extract_image(ids):
     from scenes100.training_frames import TrainingFrames
-    print('extracted training image files from LMDB of:', ' '.join(ids))
+    print('extract training image files from LMDB of:', ' '.join(ids))
     basedir = os.path.normpath(os.path.join(os.path.dirname(__file__), 'scenes100', 'images'))
     for video_id in ids:
         print('extract from:', os.path.join(basedir, video_id))
@@ -90,6 +90,61 @@ def extract_image(ids):
         dst = TrainingFrames(video_id)
         print(dst)
         dst._extract()
+
+
+def _decode(filename, foldername, ifilelist, idxlist):
+    import imageio
+    import skvideo.io
+    import tqdm
+    import glob
+    print('decode %s\n%d frames to %s' % (filename, len(ifilelist), foldername))
+    reader = skvideo.io.vreader(filename)
+    for i in tqdm.tqdm(range(0, max(idxlist) + 5), ascii=True):
+        try:
+            frame = next(reader)
+        except StopIteration:
+            break
+        if i not in idxlist:
+            continue
+        fn = os.path.join(foldername, ifilelist[idxlist.index(i)])
+        jpeg_bytes = imageio.v2.imwrite('<bytes>', frame, plugin='pillow', format='JPEG', quality=80)
+        with open(fn, 'wb') as fp:
+            fp.write(jpeg_bytes)
+    print('%d JPEG files saved' % len(glob.glob(os.path.join(foldername, '*.jpg'))))
+    reader.close()
+
+
+def decode_image(ids):
+    print('decode training image files from original videos of:', ' '.join(ids))
+    basedir = os.path.normpath(os.path.join(os.path.dirname(__file__), 'scenes100'))
+    with open(os.path.join(basedir, 'videos.json'), 'r') as fp:
+        videos = json.load(fp)
+    videos = {v['id']: v for v in videos}
+    basedir = os.path.join(basedir, )
+    for video_id in ids:
+        filename = os.path.join(basedir, 'videos', videos[video_id]['filename'])
+        print('original video file:', filename)
+        assert os.access(filename, os.R_OK), 'video file not readable'
+        checksum = sha512_hash(filename)
+        assert checksum.lower() == videos[video_id]['file']['sha512'].lower(), 'SHA512 not matching, file corrupted'
+
+        foldername = os.path.join(basedir, 'images', video_id)
+        if not os.access(foldername, os.W_OK):
+            os.mkdir(foldername)
+        url = baseurl + 'train_lmdb/' + video_id + '_frames.json'
+        filename_meta = os.path.join(foldername, 'frames.json')
+        print('download', url, '=>', filename_meta)
+        curl_download(url, filename_meta)
+        with open(os.path.join(foldername, 'frames.json'), 'r') as fp:
+            frames_meta = json.load(fp)
+        assert frames_meta['meta']['id'] == video_id, 'wrong video ID: ' + frames_meta['meta']['id']
+        ifilelist = frames_meta['ifilelist']
+        idxlist = list(map(lambda f: int(f[:f.find('.')]), ifilelist))
+
+        foldername = os.path.join(basedir, 'images', video_id, 'jpegs')
+        if not os.access(foldername, os.W_OK):
+            os.mkdir(foldername)
+        _decode(filename, foldername, ifilelist, idxlist)
 
 
 def download_mscoco():
@@ -102,7 +157,7 @@ def download_mscoco():
         url = baseurl + 'mscoco/' + f['filename']
         filename = os.path.join(basedir, 'models', f['filename'])
         print('download', url, '=>', filename)
-        wget_download(url, filename)
+        curl_download(url, filename)
         print('verify SHA512 of', filename, end=' ... ', flush=True)
         checksum = sha512_hash(filename)
         assert checksum.lower() == f['sha512'].lower(), 'SHA512 not matching, file corrupted'
@@ -111,7 +166,7 @@ def download_mscoco():
         url = baseurl + 'mscoco/' + f['filename']
         filename = os.path.join(basedir, f['filename'])
         print('download', url, '=>', filename)
-        wget_download(url, filename)
+        curl_download(url, filename)
         print('verify SHA512 of', filename, end=' ... ', flush=True)
         checksum = sha512_hash(filename)
         assert checksum.lower() == f['sha512'].lower(), 'SHA512 not matching, file corrupted'
@@ -141,7 +196,7 @@ def download_annotation():
         url = baseurl + 'annotation/' + f['filename']
         filename = os.path.join(basedir, f['filename'])
         print('download', url, '=>', filename)
-        wget_download(url, filename)
+        curl_download(url, filename)
         print('verify SHA512 of', filename, end=' ... ', flush=True)
         checksum = sha512_hash(filename)
         assert checksum.lower() == f['sha512'].lower(), 'SHA512 not matching, file corrupted'
@@ -162,7 +217,7 @@ def extract_annotation():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='download or extract datasets')
-    parser.add_argument('--opt', type=str, default='', choices=['', 'download', 'extract'], help='operation to perform')
+    parser.add_argument('--opt', type=str, default='', choices=['', 'download', 'extract', 'decode'], help='operation to perform')
     parser.add_argument('--target', type=str, default='video', choices=['video', 'image', 'annotation', 'mscoco'], help='target of operation')
     parser.add_argument('--ids', type=str, nargs='+', default=['001'], choices=['all'] + video_id_list, help='video IDs of operation, <all> means all 100 videos')
     args = parser.parse_args()
@@ -192,3 +247,6 @@ if __name__ == '__main__':
             extract_annotation()
         elif args.target == 'mscoco':
             extract_mscoco()
+    elif args.opt == 'decode':
+        assert args.target == 'image', 'can only decode images'
+        decode_image(args.ids)
