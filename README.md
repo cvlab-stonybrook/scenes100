@@ -2,7 +2,7 @@
 
 This repository is the official implementation of paper:
 
-Zekun Zhang, Minh Hoai, *Object Detection with Self-Supervised Scene Adaptation*, CVPR 2023.
+[Zekun Zhang](https://zvant.github.io/), [Minh Hoai](https://www3.cs.stonybrook.edu/~minhhoai/), *Object Detection with Self-Supervised Scene Adaptation*, CVPR 2023.
 
 [[PDF](media/zhang2023odsceneadaptive.pdf)] [[Poster](media/)] [[Video](media/)]
 
