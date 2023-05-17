@@ -4,15 +4,17 @@ This repository is the official implementation of paper:
 
 [Zekun Zhang](https://zvant.github.io/), [Minh Hoai](https://www3.cs.stonybrook.edu/~minhhoai/), *Object Detection with Self-Supervised Scene Adaptation*, CVPR 2023.
 
-[[PDF](media/zhang2023odsceneadaptive.pdf)] [[Poster](media/)] [[Video](media/)]
+[[CVPR OpenAccess](https://openaccess.thecvf.com/content/CVPR2023/html/Zhang_Object_Detection_With_Self-Supervised_Scene_Adaptation_CVPR_2023_paper.html)][[PDF with Supplementary](media/zhang2023odsceneadaptive.pdf)] [[Poster](media/)] [[Video Presentation](media/)]
 
 Scripts for downloading videos, frames, annotations, and models are also provided. If you found our paper or dataset useful, please cite:
 ```bibtex
-@inproceedings{zhang2023odsceneadaptive,
-  title={Object Detection with Self-Supervised Scene Adaptation},
-  author={Zekun Zhang and Minh Hoai},
-  booktitle={IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
-  year={2023}
+@inproceedings{Zhang2023CVPR,
+    author    = {Zhang, Zekun and Hoai, Minh},
+    title     = {Object Detection With Self-Supervised Scene Adaptation},
+    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+    month     = {June},
+    year      = {2023},
+    pages     = {21589-21599}
 }
 ```
 
