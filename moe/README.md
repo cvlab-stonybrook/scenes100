@@ -30,6 +30,8 @@ If you found our paper useful, please cite:
 ## 1. Preparation
 See [README.md](../README.md) for the preparation of Scenes100, MSCOCO and the enviroment.
 
+Download the checkpoints in the following [Google Drive](https://drive.google.com/drive/folders/1ljqXfMDi-4QXJrYgEJ5ptLB_yNNCFPSK?usp=sharing) and put them in the folder `models`.
+
 ## 2. Run experiments
 ### Adaptation training
 To run the adaptation training of the MoE models, please use the `train_b1.sh`, `train_b10.sh` and `train_b100.sh` in `script/ARCHITECTURE`. We provide the code for all three base architectures in the paper, which are Faster-RCNN, DINO-5scale and YOLOv8s. 

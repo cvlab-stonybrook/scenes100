@@ -3,7 +3,7 @@ python inference_server_simulate_dino.py \
     --train_whole 1 \
     --opt adapt \
     --config ../../configs/dino_5scale.yaml \
-    --ckpt ../../models/dino_5scale_remap_orig.pth \
+    --ckpt ../../models/dino_5scale_remap.pth \
     --tag budget100 \
     --iters 10000 \
     --eval_interval 2000 \

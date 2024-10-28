@@ -2,7 +2,7 @@
 python inference_server_simulate_dino.py \
     --train_whole 1 \
     --opt adapt \
-    --ckpt ../../models/dino_5scale_remap_orig.pth \
+    --ckpt ../../models/dino_5scale_remap.pth \
     --config ../../configs/dino_5scale.yaml \
     --tag budget10 \
     --iters 32000 \
