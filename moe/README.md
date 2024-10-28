@@ -16,7 +16,10 @@ If you found our paper useful, please cite:
   booktitle = {Proceedings of British Machine Vision Conference},  
 }
 ```
-![moe](../media/moe.png)
+<!-- ![moe](../media/moe.png) -->
+<p align="center">
+  <img src="../media/moe.png" width="300">
+</p>
 
 <p  align="center">Network architecture of the MoE-enhanced model.</p>
 
