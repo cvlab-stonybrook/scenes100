@@ -1,0 +1,6 @@
+_BASE_: "Base-RCNN-FPN.yaml"
+MODEL:
+  WEIGHTS: "R-152.pkl"
+  MASK_ON: True
+  RESNETS:
+    DEPTH: 152

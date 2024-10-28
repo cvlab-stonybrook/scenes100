@@ -1,0 +1,8 @@
+_BASE_: "Base-RCNN-FPN.yaml"
+MODEL:
+  MASK_ON: True
+  WEIGHTS: "X-50-32x4d.pkl"
+  RESNETS:
+    NUM_GROUPS: 32
+    WIDTH_PER_GROUP: 4
+    DEPTH: 50

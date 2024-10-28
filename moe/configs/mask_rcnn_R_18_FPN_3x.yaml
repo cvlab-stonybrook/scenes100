@@ -1,0 +1,7 @@
+_BASE_: "Base-RCNN-FPN.yaml"
+MODEL:
+  WEIGHTS: "R-18.pkl"
+  MASK_ON: True
+  RESNETS:
+    DEPTH: 18
+    RES2_OUT_CHANNELS: 64
