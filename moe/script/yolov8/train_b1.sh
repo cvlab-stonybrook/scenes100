@@ -15,4 +15,4 @@ python inference_server_simulate_yolov8.py \
     --outputdir ./yolov8s_bs28_lr0.0001_teacherx2_conf0.4_b1 \
     --lr 1e-4 \
     --split_list 0 1 2 3 4 -1 \
-    # --id 001
+    --id 001

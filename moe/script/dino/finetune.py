@@ -258,7 +258,7 @@ def all_pseudo_annotations(args):
 
 
 def get_annotation_dict(args):
-    inputdir = os.path.join(os.path.dirname(__file__), '..', '..', 'images', 'annotated', args.id)
+    inputdir = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'scenes100', 'annotation', args.id)
     with open(os.path.join(inputdir, 'annotations.json'), 'r') as fp:
         annotations = json.load(fp)
     for i in range(0, len(annotations)):

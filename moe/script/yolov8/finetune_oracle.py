@@ -104,7 +104,7 @@ def adapt(args):
     desc_train = f'oracle_train{args.train_r:.2f}_cocotrain'
     desc_valid = f'oracle_{1 - args.train_r:.2f}valid'
     images_train, images_valid = get_oracle_splits(args)
-    images_base_dir = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..', 'images', 'annotated'))
+    images_base_dir = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..', '..', 'scenes100', 'annotation'))
 
     for im in images_train:
         im['file_name'] = os.path.join(images_base_dir, im['video_id'], 'unmasked', im['file_name'])
@@ -259,7 +259,7 @@ def evaluate_all_videos(args):
     model.eval()
 
     _, images_valid = get_oracle_splits(args)
-    images_base_dir = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..', 'images', 'annotated'))
+    images_base_dir = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..', '..', 'scenes100', 'annotation'))
 
     for im in images_valid:
         assert 'video_id' in im
@@ -306,7 +306,7 @@ def _run_AP_eval(detections, check_empty=True):
     """Run AP evaluation on detections."""
     results = {}
     for video_id in detections:
-        with open(os.path.join(os.path.dirname(__file__), '..', '..', 'masks.json'), 'r') as fp:
+        with open(os.path.join(os.path.dirname(__file__), '..', '..', '..', 'scenes100', 'masks.json'), 'r') as fp:
             mask = json.load(fp)
         mask = {m['video']: m['polygons'] for m in mask}
         mask = mask[video_id]
@@ -365,7 +365,7 @@ if __name__ == '__main__':
     parser.add_argument('--config', type=str, default='../../configs/yolov8s.yaml', help='detection model config path')
     parser.add_argument('--budget', type=int)
 
-    parser.add_argument('--cocodir', type=str, default='../../MSCOCO2017')
+    parser.add_argument('--cocodir', type=str, default='../../../mscoco')
     parser.add_argument('--smallscale', type=bool, default=False)
     parser.add_argument('--train_r', type=float, default=0.5)
     parser.add_argument('--eval_moe', type=bool, default=False)

@@ -100,9 +100,9 @@ def get_coco_dicts_raw(args, split, segment=False):
 
 def get_coco_dicts(args, split, segment=False):
     if split == 'valid':
-        annotations_json = os.path.join(args.cocodir, 'annotations', 'instances_val2017.json')
+        annotations_json = os.path.join(args.cocodir, 'instances_val2017.json')
     elif split == 'train':
-        annotations_json = os.path.join(args.cocodir, 'annotations', 'instances_train2017.json')
+        annotations_json = os.path.join(args.cocodir, 'instances_train2017.json')
     else:
         return None
 

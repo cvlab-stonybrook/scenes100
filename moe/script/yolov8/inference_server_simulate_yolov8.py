@@ -463,7 +463,7 @@ def adapt(args):
     # Load validation images
     desc_manual_valid, dst_manual_valid = 'allvideos_manual', []
     for v in video_id_list:
-        inputdir = os.path.join(os.path.dirname(__file__), '..', '..', 'images', 'annotated', v)
+        inputdir = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'scenes100', 'annotation', v)
         with open(os.path.join(inputdir, 'annotations.json'), 'r') as fp:
             annotations = json.load(fp)
         for i in range(len(annotations)):
@@ -487,7 +487,7 @@ def adapt(args):
     dst_pseudo_anno, desc_pseudo_anno = [], 'allvideos_unlabeled_cocotrain'
     images_per_video_cap = int(args.iters * args.image_batch_size / len(video_id_list))
     for v in video_id_list:
-        lmdb_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..', 'images', 'train_lmdb', v))
+        lmdb_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..', '..', 'scenes100', 'images', v))
         with open(os.path.join(lmdb_path, 'frames.json'), 'r') as fp:
             meta = json.load(fp)
         ifilelist = meta['ifilelist']
@@ -670,7 +670,7 @@ class SemiRandomClient(torchdata.Dataset):
 
         self.images = []
         for video_id in video_id_list:
-            inputdir = os.path.join(os.path.dirname(__file__), '..', '..', 'images', 'annotated', video_id)
+            inputdir = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'scenes100', 'annotation', video_id)
             with open(os.path.join(inputdir, 'annotations.json'), 'r') as fp:
                 _dicts = json.load(fp)
             for im in _dicts:
@@ -772,7 +772,7 @@ def offline_cluster(args):
     cfg.merge_from_file(os.path.join(os.path.dirname(__file__), '..', '..', 'configs', 'base_solver.yaml'))
     video_images, num_images_per_video = [], 400
     for v in tqdm.tqdm(video_id_list, ascii=True, desc='loading images'):
-        lmdb_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..', 'images', 'train_lmdb', v))
+        lmdb_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..', '..', 'scenes100', 'images', v))
         with open(os.path.join(lmdb_path, 'frames.json'), 'r') as fp:
             meta = json.load(fp)
         ifilelist = sorted(meta['ifilelist'])
@@ -837,7 +837,7 @@ if __name__ == '__main__':
     parser.add_argument('--id', type=str, default='', help='video ID')
     parser.add_argument('--ckpt', type=str, default="../../models/yolov8s_remap.pth", help='weights checkpoint of model')
     parser.add_argument('--mapper', type=str, default=None, help='weights checkpoint of model')
-    parser.add_argument('--cocodir', type=str, default='../../MSCOCO2017')
+    parser.add_argument('--cocodir', type=str, default='../../../mscoco')
     parser.add_argument('--smallscale', type=bool, default=False)
     parser.add_argument('--incremental_videos', type=bool, default=False)
     parser.add_argument('--train_whole', type=bool, default=False)

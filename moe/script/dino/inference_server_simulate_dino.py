@@ -511,7 +511,7 @@ def adapt(args):
     # validation images
     desc_manual_valid, dst_manual_valid = 'allvideos_manual', []
     for v in video_id_list:
-        inputdir = os.path.join(os.path.dirname(__file__), '..', '..', 'images', 'annotated', v)
+        inputdir = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'scenes100', 'annotation', v)
         with open(os.path.join(inputdir, 'annotations.json'), 'r') as fp:
             annotations = json.load(fp)
         for i in range(0, len(annotations)):
@@ -534,7 +534,7 @@ def adapt(args):
     dst_pseudo_anno, desc_pseudo_anno = [], 'allvideos_unlabeled_cocotrain'
     images_per_video_cap = int(args.iters * args.image_batch_size / len(video_id_list))
     for v in video_id_list:
-        lmdb_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..', 'images', 'train_lmdb', v))
+        lmdb_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..', '..', 'scenes100', 'images', v))
         with open(os.path.join(lmdb_path, 'frames.json'), 'r') as fp:
             meta = json.load(fp)
         ifilelist = meta['ifilelist']
@@ -710,7 +710,7 @@ class SemiRandomClient(torchdata.Dataset):
 
         self.images = []
         for video_id in video_id_list:
-            inputdir = os.path.join(os.path.dirname(__file__), '..', '..', 'images', 'annotated', video_id)
+            inputdir = os.path.join(os.path.dirname(__file__), '..', '..', '..', 'scenes100', 'annotation', video_id)
             with open(os.path.join(inputdir, 'annotations.json'), 'r') as fp:
                 _dicts = json.load(fp)
             for im in _dicts:
@@ -748,33 +748,6 @@ class SemiRandomClient(torchdata.Dataset):
     @staticmethod
     def collate(batch):
         return batch
-
-
-def inference_throughput(args):
-    mapper = torch.load(os.path.join(args.ckpts_dir, '%s.mapper.pth' % args.ckpts_tag))
-    print(mapper)
-    cfg = get_cfg_base_model("r101-fpn-3x")
-    model = YOLOServer.create_from_sup(load_model(os.path.join(os.path.dirname(__file__),'../../configs/yolov3-custom.cfg')), mapper['budget'])
-    model.video_id_to_index = mapper['video_id_to_index']
-    model.used_indices = mapper['used_indices']
-    model.un_used_indices = mapper['un_used_indices']
-    state_dict = torch.load(os.path.join(args.ckpts_dir, '%s.pth' % args.ckpts_tag))
-    model.load_state_dict(state_dict)
-    del state_dict
-    dataset = SemiRandomClient(cfg)
-    dataset.images = list(filter(lambda x: x['video_id'] == args.id, dataset.images))
-    dataset.images = sorted(dataset.images, key=lambda x: x['file_name'])[:10]
-    dataset.preload()
-    gc.collect()
-    torch.cuda.empty_cache()
-    N1, N2 = 100, 400
-    with torch.no_grad():
-        for i in tqdm.tqdm(range(0, N2 + N1), ascii=True):
-            if i == N1: t = time.time()
-            if i == N2: t = time.time() - t
-            model.inference([dataset[i % len(dataset)][0]])
-    tp = (N2 - N1) / t
-    print('%.3f images/s, %.3f ms/image' % (tp, 1000 / tp))
 
 
 class _MapperDataset(torchdata.Dataset):
@@ -822,7 +795,7 @@ def offline_cluster(args):
     model.eval()
     video_images, num_images_per_video = [], 400
     for v in tqdm.tqdm(video_id_list, ascii=True, desc='loading images'):
-        lmdb_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..', 'images', 'train_lmdb', v))
+        lmdb_path = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '..','..' 'scenes100', 'images', v))
         with open(os.path.join(lmdb_path, 'frames.json'), 'r') as fp:
             meta = json.load(fp)
         ifilelist = sorted(meta['ifilelist'])
@@ -885,7 +858,7 @@ if __name__ == '__main__':
     parser.add_argument('--id', type=str, default='', help='video ID')
     parser.add_argument('--ckpt', type=str, default="../../models/yolov5l_remap.pth", help='weights checkpoint of model')
     parser.add_argument('--mapper', type=str, default=None, help='weights checkpoint of model')
-    parser.add_argument('--cocodir', type=str, default='../../MSCOCO2017')
+    parser.add_argument('--cocodir', type=str, default='../../../mscoco')
     parser.add_argument('--smallscale', type=bool, default=False)
     parser.add_argument('--incremental_videos', type=bool, default=False)
     parser.add_argument('--train_whole', type=bool, default=False)
@@ -935,8 +908,7 @@ if __name__ == '__main__':
         else:
             from detectron2.engine import launch
             launch(adapt, args.ddp_num_gpus, num_machines=1, machine_rank=0, dist_url='auto', args=(args,))
-    if args.opt == 'tp':
-        inference_throughput(args)
+
     if args.opt == 'cluster':
         if args.random:
             random_cluster(args)

@@ -23,7 +23,7 @@
 #             --refine_det_score_thres 0.3
 # done
 
-
+# finetune oracle
 python finetune_oracle.py \
         --opt adapt \
         --train_r 0.33 \
@@ -34,6 +34,6 @@ python finetune_oracle.py \
         --save_interval 2000 \
         --image_batch_size 2 \
         --num_workers 2 \
-        --outputdir ./finetune_oracle/0.33train_2/ \
+        --outputdir ./finetune_oracle/0.33train/ \
         --lr 1e-4 \
         --budget 1

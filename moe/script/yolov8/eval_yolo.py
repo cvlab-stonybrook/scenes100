@@ -92,7 +92,7 @@ class SemiRandomClient(torchdata.Dataset):
         self.images = []
         for video_id in video_id_list:
             inputdir = os.path.join(
-                os.path.dirname(__file__), '..', '..', '..', 'scenes100', 'scenes100', 'annotation', video_id
+                os.path.dirname(__file__), '..', '..', '..', 'scenes100', 'annotation', video_id
             )
             with open(os.path.join(inputdir, 'annotations.json'), 'r') as fp:
                 _dicts = json.load(fp)
@@ -581,7 +581,7 @@ if __name__ == '__main__':
     parser.add_argument('--config', type=str, default="../../configs/yolov8.yaml", help='config of model')
     parser.add_argument('--scale', type=float, default=1)
     parser.add_argument('--image_batch_size', default=4, type=int)
-    parser.add_argument('--cocodir', type=str, default='../../MSCOCO2017')
+    parser.add_argument('--cocodir', type=str, default='../../../mscoco')
 
     parser.add_argument('--preload', type=bool, default=False)
     parser.add_argument('--smallscale', type=bool, default=False)
@@ -591,6 +591,9 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     print(args)
+
+    if args.id != '':
+        video_id_list = [args.id]
 
     if args.opt == 'server':
         assert args.instances > 0
