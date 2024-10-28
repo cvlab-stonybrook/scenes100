@@ -35,7 +35,7 @@ You can modify the arguments to perform 1-stage and 2-stage training. The file `
 
 Specifically:
 
- - Modify `--ckpt` to choose the starting checkpoint of the model. If you use 1-stage training, make sure `--ckpt` is the base model. Otherwise, `--ckpt	` should be the warmed-up model.
+ - Modify `--ckpt` to choose the starting checkpoint of the model. If you use 1-stage training, make sure `--ckpt` is the base model. Otherwise, `--ckpt` should be the warmed-up model.
  - Modify `--mapper` to choose the mapper for the model. You can leave it empty to use random gating or specify a `.pth` file for it for $B$-Means gating or any mapper you want. 
 
 ### Evaluate Detection Performance
