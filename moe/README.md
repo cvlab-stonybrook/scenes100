@@ -30,6 +30,8 @@ If you found our paper useful, please cite:
 ## 1. Preparation
 See [README.md](../README.md) for the preparation of Scenes100, MSCOCO and the enviroment.
 
+In addition, refer to [DINO](https://github.com/IDEA-Research/DINO) repo and use `pip install ultralytics` to install the requirements for DINO-5scale and YOLOv8s, respectively.
+
 Download the checkpoints in the following [Google Drive](https://drive.google.com/drive/folders/1ljqXfMDi-4QXJrYgEJ5ptLB_yNNCFPSK?usp=sharing) and put them in the folder `models`.
 
 ## 2. Run experiments
