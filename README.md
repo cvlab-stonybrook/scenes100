@@ -14,7 +14,6 @@ Scripts for downloading videos, frames, annotations, and models are also provide
     booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
     month     = {June},
     year      = {2023},
-    pages     = {21589-21599}
 }
 ```
 
@@ -27,6 +26,8 @@ Scripts for downloading videos, frames, annotations, and models are also provide
 [mosaic.webm](https://user-images.githubusercontent.com/10338705/223283108-66500928-fb67-4cd3-b777-c07b30e333c7.webm)
 
 <p align="center">Some images from proposed <b>Scenes100</b> dataset with object bounding box annotations for evaluation.</p>
+
+## 🚩 Checkout our new paper *Efficiency-Preserving Scene-Adaptive Object Detection*, BMVC 2024 [here](moe)!
 
 ## 1. Environment Setup
 

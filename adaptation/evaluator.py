@@ -134,7 +134,7 @@ def evaluate_masked(video_id, detections):
 
     assert len(images) == len(detections), 'mismatch'
     for im1, im2 in zip(images, detections):
-        assert im1['file_name'] == im2['file_name'], 'mismatch'
+        assert im1['file_name'] == im2['file_name'], 'mismatch: %s %s' % (im1['file_name'], im2['file_name'])
     return eval_AP(images, detections)
 
 
